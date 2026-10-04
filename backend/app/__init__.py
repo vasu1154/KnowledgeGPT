@@ -1,0 +1,1 @@
+"""KnowledgeGPT Backend Application."""
