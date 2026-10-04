@@ -92,6 +92,15 @@ class DocumentService:
             f"user={user.id}, file={file.filename}"
         )
 
+        # Trigger processing pipeline (Phase 4 synchronous, Phase 7 Celery)
+        from app.document_processing.processor import DocumentProcessor
+        processor = DocumentProcessor(self.db)
+        try:
+            await processor.process_document(document.id)
+        except Exception as e:
+            logger.warning(f"Processing failed for document {document.id}: {e}")
+
+        await self.db.refresh(document)
         return document
 
     async def get_documents(self, user: User) -> List[Document]:
@@ -120,12 +129,21 @@ class DocumentService:
         """Delete a document and its file."""
         document = await self.get_document(document_id, user)
 
+        # Delete physical file
         if os.path.exists(document.storage_path):
             try:
                 os.remove(document.storage_path)
                 logger.info(f"File deleted: {document.storage_path}")
             except OSError as e:
                 logger.warning(f"Failed to delete file from disk: {e}")
+
+        # Delete vectors from ChromaDB
+        from app.ai.vector_store import VectorStoreService
+        try:
+            vector_store = VectorStoreService()
+            vector_store.delete_document_vectors(document_id)
+        except Exception as e:
+            logger.warning(f"Failed to delete ChromaDB vectors: {e}")
 
         await self.db.delete(document)
         await self.db.flush()
