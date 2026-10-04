@@ -6,6 +6,11 @@ from app.schemas.auth import (
     TokenResponse,
     MessageResponse,
 )
+from app.schemas.document import (
+    DocumentResponse,
+    DocumentListResponse,
+    DocumentDeleteResponse,
+)
 
 __all__ = [
     "UserRegisterRequest",
@@ -13,4 +18,7 @@ __all__ = [
     "UserResponse",
     "TokenResponse",
     "MessageResponse",
+    "DocumentResponse",
+    "DocumentListResponse",
+    "DocumentDeleteResponse",
 ]

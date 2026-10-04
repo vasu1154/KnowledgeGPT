@@ -34,7 +34,8 @@ class ConflictError(HTTPException):
 class FileTooLargeError(HTTPException):
     def __init__(self, detail: str = "File size exceeds the maximum allowed size"):
         super().__init__(
-            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail=detail
+            status_code=getattr(status, "HTTP_413_CONTENT_TOO_LARGE", 413),
+            detail=detail,
         )
 
 
