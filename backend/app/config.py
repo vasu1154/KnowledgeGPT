@@ -1,4 +1,5 @@
 from typing import List
+# pyrefly: ignore [missing-import]
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -12,7 +13,7 @@ class Settings(BaseSettings):
     API_V1_PREFIX: str = "/api/v1"
 
     # Database
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/knowledgegpt"
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:jd@localhost:5432/knowledgegpt"
     DATABASE_ECHO: bool = False
 
     # JWT

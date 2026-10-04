@@ -1,10 +1,14 @@
 import asyncio
 from logging.config import fileConfig
 
+# pyrefly: ignore [missing-import]
 from sqlalchemy import pool
+# pyrefly: ignore [missing-import]
 from sqlalchemy.engine import Connection
+# pyrefly: ignore [missing-import]
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
+# pyrefly: ignore [missing-import]
 from alembic import context
 
 from app.config import settings
@@ -20,8 +24,8 @@ if config.config_file_name is not None:
 # Model metadata for autogenerate support
 target_metadata = Base.metadata
 
-# Models will be imported here in future phases so Alembic detects them:
-# from app.models.user import User
+# Models imported here so Alembic detects them:
+from app.models.user import User
 # from app.models.document import Document
 # from app.models.conversation import Conversation
 # from app.models.message import Message
